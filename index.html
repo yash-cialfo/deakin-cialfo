@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deakin Career Studio × Cialfo — 2026 Season Recap</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{
+    --navy:#0b1f45;
+    --navy-light:#132a5c;
+    --navy-lighter:#1c3a78;
+    --gold:#f2b90c;
+    --gold-soft:#f7d158;
+    --text:#eef2fb;
+    --text-dim:#a9b6d6;
+    --border:rgba(242,185,12,0.35);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',Arial,sans-serif;
+    background:linear-gradient(180deg,var(--navy) 0%, #081735 100%);
+    color:var(--text);
+    line-height:1.55;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px 80px;}
+  header.hero{
+    padding:56px 24px 40px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+    background:radial-gradient(ellipse at top, rgba(242,185,12,0.08), transparent 60%);
+  }
+  .badges{display:flex;justify-content:center;gap:14px;margin-bottom:18px;flex-wrap:wrap;}
+  .badge{
+    background:var(--navy-light);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:6px 16px;
+    font-size:13px;
+    color:var(--gold-soft);
+    letter-spacing:.03em;
+  }
+  h1{
+    font-size:2.6rem;
+    margin:0 0 8px;
+    color:#fff;
+  }
+  h1 span{color:var(--gold);}
+  .subtitle{color:var(--text-dim);font-size:1.05rem;max-width:640px;margin:0 auto;}
+  .stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:16px;
+    margin:40px 0;
+  }
+  .stat-card{
+    background:var(--navy-light);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:22px 20px;
+    text-align:center;
+  }
+  .stat-card .num{font-size:2.1rem;font-weight:700;color:var(--gold);}
+  .stat-card .label{font-size:.85rem;color:var(--text-dim);margin-top:4px;}
+  section{margin:56px 0;}
+  h2{
+    font-size:1.5rem;
+    color:#fff;
+    border-left:4px solid var(--gold);
+    padding-left:12px;
+    margin-bottom:6px;
+  }
+  .section-note{color:var(--text-dim);font-size:.92rem;margin-bottom:22px;}
+  .chart-card{
+    background:var(--navy-light);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:24px;
+    margin-bottom:24px;
+  }
+  .chart-card h3{margin:0 0 4px;font-size:1.05rem;color:var(--gold-soft);}
+  .chart-card .chart-desc{font-size:.85rem;color:var(--text-dim);margin-bottom:14px;}
+  canvas{max-height:340px;}
+  .filter-bar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:24px;
+  }
+  .filter-btn{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:8px 16px;
+    border-radius:999px;
+    font-size:.85rem;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .filter-btn:hover{border-color:var(--gold);color:var(--gold-soft);}
+  .filter-btn.active{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:600;}
+  .session-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:20px;
+  }
+  .session-card{
+    background:var(--navy-light);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
+    display:none;
+  }
+  .session-card.visible{display:block;}
+  .session-card .date-tag{
+    display:inline-block;
+    font-size:.75rem;
+    color:var(--navy);
+    background:var(--gold);
+    padding:3px 10px;
+    border-radius:999px;
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  .session-card h3{margin:0 0 4px;font-size:1.15rem;color:#fff;}
+  .session-card .facilitator{font-size:.85rem;color:var(--gold-soft);margin-bottom:14px;}
+  .metric-row{display:flex;gap:18px;margin-bottom:14px;flex-wrap:wrap;}
+  .metric{flex:1;min-width:90px;}
+  .metric .m-num{font-size:1.3rem;font-weight:700;color:var(--gold);}
+  .metric .m-label{font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;}
+  .session-card ul{margin:10px 0 0;padding-left:18px;font-size:.88rem;color:var(--text-dim);}
+  .session-card li{margin-bottom:4px;}
+  .spotlight{
+    background:linear-gradient(135deg, var(--navy-lighter), var(--navy-light));
+    border:1px solid var(--gold);
+    border-radius:18px;
+    padding:32px;
+  }
+  .spotlight .date-tag{
+    display:inline-block;font-size:.75rem;color:var(--navy);background:var(--gold);
+    padding:3px 10px;border-radius:999px;font-weight:700;margin-bottom:14px;
+  }
+  .spotlight h3{font-size:1.4rem;color:#fff;margin:0 0 6px;}
+  .spotlight .venue{color:var(--gold-soft);font-size:.95rem;margin-bottom:18px;}
+  .spotlight-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  @media (max-width:700px){.spotlight-grid{grid-template-columns:1fr;}}
+  .spotlight ul{padding-left:18px;font-size:.9rem;color:var(--text-dim);}
+  .spotlight li{margin-bottom:6px;}
+  .context-box{
+    background:var(--navy-light);
+    border-left:4px solid var(--gold);
+    border-radius:10px;
+    padding:18px 20px;
+    font-size:.9rem;
+    color:var(--text-dim);
+    margin-top:18px;
+  }
+  .context-box strong{color:var(--gold-soft);}
+  footer{
+    text-align:center;
+    padding:32px 24px;
+    border-top:1px solid var(--border);
+    color:var(--text-dim);
+    font-size:.85rem;
+  }
+  .facilitator-wall{
+    display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;
+  }
+  .facilitator-chip{
+    background:var(--navy-light);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:8px 14px;
+    font-size:.82rem;
+    color:var(--text-dim);
+  }
+  .facilitator-chip b{color:#fff;display:block;font-size:.86rem;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="badges">
+    <span class="badge">CIALFO × DEAKIN UNIVERSITY</span>
+    <span class="badge">CRICOS 00113B</span>
+  </div>
+  <h1>Deakin Career <span>Studio</span></h1>
+  <p class="subtitle">2026 Season Recap — six live webinars across three Saturdays, plus one in-person masterclass, bringing Deakin University's faculty directly to students across India.</p>
+</header>
+
+<div class="wrap">
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="num">7</div><div class="label">Live Touchpoints</div></div>
+    <div class="stat-card"><div class="num">676</div><div class="label">Webinar Registrations</div></div>
+    <div class="stat-card"><div class="num">192</div><div class="label">Total Live Participants</div></div>
+    <div class="stat-card"><div class="num">9</div><div class="label">Deakin Faculty Featured</div></div>
+  </div>
+
+  <section>
+    <h2>Registrations vs. Attendance, by Session</h2>
+    <p class="section-note">Six webinar sessions across three dates. The in-person masterclass isn't shown here — it didn't run on a registration funnel the same way.</p>
+    <div class="chart-card">
+      <canvas id="regAttendChart"></canvas>
+    </div>
+  </section>
+
+  <section>
+    <h2>Show-Up Rate Across the Season</h2>
+    <p class="section-note">Live attendance as a share of registrations, tracked across the three webinar dates.</p>
+    <div class="chart-card">
+      <canvas id="trendChart"></canvas>
+    </div>
+    <div class="context-box">
+      <strong>Context on the decline:</strong> 22 August ran on a compressed ~10-day promotional window rather than the full three-week runway used for 8 August. 29 August covered a comparatively niche topic (nutrition &amp; dietetics) and landed on a short interval after the prior session, overlapping with the Raksha Bandhan weekend — a combination likely to have softened live turnout. Registration volume held up throughout; the gap was specifically in converting registrants to live attendees.
+    </div>
+  </section>
+
+  <section>
+    <h2>Q&amp;A Engagement, by Session</h2>
+    <p class="section-note">Live questions fielded directly by Deakin faculty. Not tracked for the 29 August pair (no Q&amp;A report generated).</p>
+    <div class="chart-card">
+      <canvas id="qaChart"></canvas>
+    </div>
+  </section>
+
+  <section>
+    <h2>Session-by-Session Breakdown</h2>
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-date="all">All Dates</button>
+      <button class="filter-btn" data-date="8 Aug">8 August</button>
+      <button class="filter-btn" data-date="22 Aug">22 August</button>
+      <button class="filter-btn" data-date="29 Aug">29 August</button>
+    </div>
+    <div class="session-grid" id="sessionGrid"></div>
+  </section>
+
+  <section>
+    <h2>In-Person Spotlight</h2>
+    <div class="spotlight">
+      <span class="date-tag">SATURDAY, 18 AUGUST 2026</span>
+      <h3>Sport Management &amp; Sport Science: Performance, Analytics, and Global Sports Careers</h3>
+      <div class="venue">📍 Heritage International Xperiential School (HIXS) Campus — On-campus masterclass</div>
+      <div class="spotlight-grid">
+        <div>
+          <div class="metric-row">
+            <div class="metric"><div class="m-num">120</div><div class="m-label">Student Attendees</div></div>
+            <div class="metric"><div class="m-num">G9,10,12</div><div class="m-label">Grade Levels</div></div>
+          </div>
+          <p style="color:var(--text-dim);font-size:.9rem;">The series' first in-person masterclass — a hands-on look at careers spanning performance analytics, sports science, and global sports management, delivered jointly by Deakin University and Cialfo.</p>
+        </div>
+        <div>
+          <ul>
+            <li>Comprehensive introduction to the global sports industry</li>
+            <li>Emerging opportunities in performance &amp; analytics, referencing the next Olympics in India as a growth example</li>
+            <li>Essential skills for modern global sports careers</li>
+            <li>IB/academic subject combinations for higher education pathways at Deakin</li>
+          </ul>
+        </div>
+      </div>
+      <div class="facilitator-wall">
+        <div class="facilitator-chip"><b>Dr. Aden Kittel</b>Deakin University</div>
+        <div class="facilitator-chip"><b>Prof. Pamm Phillips</b>Deakin University</div>
+        <div class="facilitator-chip"><b>Mr. Adit &amp; Mr. Gagan</b>Program Delivery</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Prepared by Cialfo in partnership with Deakin University · Deakin Career Studio 2026 Season Recap
+  </footer>
+</div>
+
+<script>
+const sessions = [
+  {
+    date: "8 Aug", dateLabel: "SATURDAY, 8 AUGUST 2026",
+    title: "The Mind Lab – Decode Your Brain", track: "Psychology",
+    facilitator: "Dr. Megan Danby & Dr. Ian Fuelscher, School of Psychology, Deakin University",
+    registrations: 90, attendees: 18, rate: "20%", qa: 5, chat: 43,
+    covered: ["Psychology, memory, attention, learning and personality", "Psychology career pathways and study opportunities at Deakin"]
+  },
+  {
+    date: "8 Aug", dateLabel: "SATURDAY, 8 AUGUST 2026",
+    title: "Entrepreneurial Mindset – Business & Design Thinking", track: "Business & Design Thinking",
+    facilitator: "Dr. Wade Halvorson, Entrepreneurship Academic & Business Development Specialist, Deakin University",
+    registrations: 130, attendees: 23, rate: "17.8%", qa: 32, chat: null,
+    covered: ["Entrepreneurial mindset, innovation and creative problem-solving", "Design thinking, customer needs and the Business Model Canvas"]
+  },
+  {
+    date: "22 Aug", dateLabel: "SATURDAY, 22 AUGUST 2026",
+    title: "Beyond the Code: Shaping the Future with Artificial Intelligence", track: "Artificial Intelligence",
+    facilitator: "Dr. Bahadorreza Ofoghi, Deakin University",
+    registrations: 158, attendees: 14, rate: "8.9%", qa: 3, chat: null,
+    covered: ["Open AMA-style format — students asked Deakin faculty directly about AI career paths and study routes", "Topics raised included IB subject combinations for AI, high-paying career outcomes, and general study planning"]
+  },
+  {
+    date: "22 Aug", dateLabel: "SATURDAY, 22 AUGUST 2026",
+    title: "Engineering the Future: Global Careers in Electronics, Robotics & Industrial Automation", track: "Engineering & Innovation",
+    facilitator: "Dr. Hamid Abdi, Deakin University",
+    registrations: 138, attendees: 8, rate: "5.8%", qa: 0, chat: null,
+    covered: ["Open format on global careers in electronics, robotics and industrial automation"]
+  },
+  {
+    date: "29 Aug", dateLabel: "SATURDAY, 29 AUGUST 2026",
+    title: "Fuelling the Future: What You Eat, How You Grow and Think, and Where It Can Take You", track: "Nutrition & Dietetics",
+    facilitator: "Dr. Sze Yen Tan, Deakin University",
+    registrations: 58, attendees: 3, rate: "5.2%", qa: null, chat: null,
+    covered: ["Unlocking pathways to a rewarding nutrition and dietetics career"]
+  },
+  {
+    date: "29 Aug", dateLabel: "SATURDAY, 29 AUGUST 2026",
+    title: "Beyond ChatGPT: Career Opportunities in the Communication Industry in an AI-Driven World", track: "Creative Arts & Communication",
+    facilitator: "Dr. Thaera O'Brien, Deakin University",
+    registrations: 102, attendees: 6, rate: "5.9%", qa: null, chat: null,
+    covered: ["Digital media, storytelling, and creative careers in a Generative AI landscape"]
+  }
+];
+
+const grid = document.getElementById('sessionGrid');
+sessions.forEach(s => {
+  const card = document.createElement('div');
+  card.className = 'session-card visible';
+  card.dataset.date = s.date;
+  card.innerHTML = `
+    <span class="date-tag">${s.dateLabel}</span>
+    <h3>${s.title}</h3>
+    <div class="facilitator">${s.facilitator}</div>
+    <div class="metric-row">
+      <div class="metric"><div class="m-num">${s.registrations}</div><div class="m-label">Registered</div></div>
+      <div class="metric"><div class="m-num">${s.attendees}</div><div class="m-label">Attended</div></div>
+      <div class="metric"><div class="m-num">${s.rate}</div><div class="m-label">Show-up Rate</div></div>
+      <div class="metric"><div class="m-num">${s.qa !== null ? s.qa : '—'}</div><div class="m-label">Q&A Qs</div></div>
+    </div>
+    <ul>${s.covered.map(c => `<li>${c}</li>`).join('')}</ul>
+  `;
+  grid.appendChild(card);
+});
+
+document.getElementById('filterBar').addEventListener('click', (e) => {
+  if (!e.target.classList.contains('filter-btn')) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  const date = e.target.dataset.date;
+  document.querySelectorAll('.session-card').forEach(card => {
+    card.classList.toggle('visible', date === 'all' || card.dataset.date === date);
+  });
+});
+
+const goldPalette = ['#f2b90c', '#7fb3ff'];
+const gridColor = 'rgba(255,255,255,0.08)';
+const tickColor = '#a9b6d6';
+
+new Chart(document.getElementById('regAttendChart'), {
+  type: 'bar',
+  data: {
+    labels: sessions.map(s => s.track),
+    datasets: [
+      { label: 'Registrations', data: sessions.map(s => s.registrations), backgroundColor: goldPalette[0] },
+      { label: 'Attendees', data: sessions.map(s => s.attendees), backgroundColor: goldPalette[1] }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#eef2fb' } } },
+    scales: {
+      x: { ticks: { color: tickColor, maxRotation: 40, minRotation: 20 }, grid: { color: gridColor } },
+      y: { ticks: { color: tickColor }, grid: { color: gridColor }, beginAtZero: true }
+    }
+  }
+});
+
+new Chart(document.getElementById('trendChart'), {
+  type: 'line',
+  data: {
+    labels: ['8 August', '22 August', '29 August'],
+    datasets: [{
+      label: 'Show-up rate (%)',
+      data: [18.6, 7.4, 5.6],
+      borderColor: '#f2b90c',
+      backgroundColor: 'rgba(242,185,12,0.15)',
+      tension: 0.3,
+      fill: true,
+      pointRadius: 6,
+      pointBackgroundColor: '#f2b90c'
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#eef2fb' } } },
+    scales: {
+      x: { ticks: { color: tickColor }, grid: { color: gridColor } },
+      y: { ticks: { color: tickColor, callback: v => v + '%' }, grid: { color: gridColor }, beginAtZero: true }
+    }
+  }
+});
+
+new Chart(document.getElementById('qaChart'), {
+  type: 'bar',
+  data: {
+    labels: sessions.map(s => s.track),
+    datasets: [{
+      label: 'Q&A Questions',
+      data: sessions.map(s => s.qa),
+      backgroundColor: '#7fb3ff'
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: tickColor, maxRotation: 40, minRotation: 20 }, grid: { color: gridColor } },
+      y: { ticks: { color: tickColor }, grid: { color: gridColor }, beginAtZero: true }
+    }
+  }
+});
+</script>
+</body>
+</html>
