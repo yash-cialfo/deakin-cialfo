@@ -13,6 +13,7 @@
     --gold:#f2b90c;
     --gold-soft:#f7d158;
     --green:#3ddc84;
+    --blue:#7fb3ff;
     --text:#eef2fb;
     --text-dim:#a9b6d6;
     --border:rgba(242,185,12,0.35);
@@ -218,6 +219,7 @@
     padding:20px;
   }
   .commit-card.done{border-color:rgba(61,220,132,0.5);}
+  .commit-card.progress{border-color:rgba(127,179,255,0.5);}
   .commit-status{
     display:inline-block;
     font-size:.72rem;
@@ -230,6 +232,7 @@
   }
   .commit-card.done .commit-status{background:rgba(61,220,132,0.15);color:var(--green);border:1px solid rgba(61,220,132,0.4);}
   .commit-card.pending .commit-status{background:rgba(242,185,12,0.12);color:var(--gold-soft);border:1px solid var(--border);}
+  .commit-card.progress .commit-status{background:rgba(127,179,255,0.15);color:var(--blue);border:1px solid rgba(127,179,255,0.4);}
   .commit-title{font-size:1.05rem;color:#fff;font-weight:600;margin-bottom:6px;}
   .commit-desc{font-size:.85rem;color:var(--text-dim);}
 </style>
@@ -281,8 +284,8 @@
         <div class="commit-title">AMA Sessions</div>
         <div class="commit-desc">3 dedicated AMA sessions committed as part of the bespoke webinar package.</div>
       </div>
-      <div class="commit-card pending">
-        <div class="commit-status">⏳ Remaining</div>
+      <div class="commit-card progress">
+        <div class="commit-status">🔄 In Progress</div>
         <div class="commit-title">IHST Tour</div>
         <div class="commit-desc">In-person tour across 4 cities, 1 tour.</div>
       </div>
