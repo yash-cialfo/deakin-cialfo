@@ -12,6 +12,7 @@
     --navy-lighter:#1c3a78;
     --gold:#f2b90c;
     --gold-soft:#f7d158;
+    --green:#3ddc84;
     --text:#eef2fb;
     --text-dim:#a9b6d6;
     --border:rgba(242,185,12,0.35);
@@ -144,7 +145,7 @@
   .spotlight h3{font-size:1.4rem;color:#fff;margin:0 0 6px;}
   .spotlight .venue{color:var(--gold-soft);font-size:.95rem;margin-bottom:18px;}
   .spotlight-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
-  @media (max-width:700px){.spotlight-grid{grid-template-columns:1fr;}}
+  @media (max-width:700px){.spotlight-grid{grid-template-columns:1fr;} .commit-grid{grid-template-columns:1fr;}}
   .spotlight ul{padding-left:18px;font-size:.9rem;color:var(--text-dim);}
   .spotlight li{margin-bottom:6px;}
   .context-box{
@@ -176,6 +177,61 @@
     color:var(--text-dim);
   }
   .facilitator-chip b{color:#fff;display:block;font-size:.86rem;}
+
+  /* Commitment tracker */
+  .progress-banner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    background:var(--navy-light);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px 24px;
+    margin-bottom:24px;
+    flex-wrap:wrap;
+  }
+  .progress-banner .pb-label{font-size:.95rem;color:var(--text-dim);}
+  .progress-banner .pb-frac{font-size:1.6rem;font-weight:700;color:var(--gold);}
+  .progress-track{
+    flex:1;
+    min-width:180px;
+    height:10px;
+    background:rgba(255,255,255,0.08);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--gold), var(--green));
+    border-radius:999px;
+  }
+  .commit-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:16px;
+  }
+  .commit-card{
+    background:var(--navy-light);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+  }
+  .commit-card.done{border-color:rgba(61,220,132,0.5);}
+  .commit-status{
+    display:inline-block;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:4px 10px;
+    border-radius:999px;
+    margin-bottom:12px;
+  }
+  .commit-card.done .commit-status{background:rgba(61,220,132,0.15);color:var(--green);border:1px solid rgba(61,220,132,0.4);}
+  .commit-card.pending .commit-status{background:rgba(242,185,12,0.12);color:var(--gold-soft);border:1px solid var(--border);}
+  .commit-title{font-size:1.05rem;color:#fff;font-weight:600;margin-bottom:6px;}
+  .commit-desc{font-size:.85rem;color:var(--text-dim);}
 </style>
 </head>
 <body>
@@ -197,6 +253,46 @@
     <div class="stat-card"><div class="num">192</div><div class="label">Total Live Participants</div></div>
     <div class="stat-card"><div class="num">9</div><div class="label">Deakin Faculty Featured</div></div>
   </div>
+
+  <section>
+    <h2>Partnership Commitment — Progress Tracker</h2>
+    <p class="section-note">The original scope agreed with Deakin, tracked against what's been delivered so far.</p>
+    <div class="progress-banner">
+      <div>
+        <div class="pb-label">Commitments delivered</div>
+        <div class="pb-frac">2 of 5</div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:40%;"></div></div>
+      <div class="pb-label">40% complete</div>
+    </div>
+    <div class="commit-grid">
+      <div class="commit-card done">
+        <div class="commit-status">✅ Complete</div>
+        <div class="commit-title">Webinar Series — 6 Sessions</div>
+        <div class="commit-desc">All 6 bespoke webinar sessions delivered across three dates (8, 22, 29 August 2026).</div>
+      </div>
+      <div class="commit-card done">
+        <div class="commit-status">✅ Complete</div>
+        <div class="commit-title">In-Person Session (HIXS)</div>
+        <div class="commit-desc">On-campus masterclass delivered at Heritage International Xperiential School — Sport Management & Sport Science.</div>
+      </div>
+      <div class="commit-card pending">
+        <div class="commit-status">⏳ Remaining</div>
+        <div class="commit-title">AMA Sessions</div>
+        <div class="commit-desc">3 dedicated AMA sessions committed as part of the bespoke webinar package.</div>
+      </div>
+      <div class="commit-card pending">
+        <div class="commit-status">⏳ Remaining</div>
+        <div class="commit-title">IHST Tour</div>
+        <div class="commit-desc">In-person tour across 4 cities, 1 tour.</div>
+      </div>
+      <div class="commit-card pending">
+        <div class="commit-status">⏳ Remaining</div>
+        <div class="commit-title">Counselor Connect PD Session</div>
+        <div class="commit-desc">1 professional development session for the IHST counselor community (largely Hyderabad).</div>
+      </div>
+    </div>
+  </section>
 
   <section>
     <h2>Registrations vs. Attendance, by Session</h2>
