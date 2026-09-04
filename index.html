@@ -14,6 +14,7 @@
     --gold-soft:#f7d158;
     --green:#3ddc84;
     --blue:#7fb3ff;
+    --purple:#c792ea;
     --text:#eef2fb;
     --text-dim:#a9b6d6;
     --border:rgba(242,185,12,0.35);
@@ -189,7 +190,7 @@
     border:1px solid var(--border);
     border-radius:14px;
     padding:20px 24px;
-    margin-bottom:24px;
+    margin-bottom:10px;
     flex-wrap:wrap;
   }
   .progress-banner .pb-label{font-size:.95rem;color:var(--text-dim);}
@@ -207,6 +208,7 @@
     background:linear-gradient(90deg, var(--gold), var(--green));
     border-radius:999px;
   }
+  .progress-footnote{font-size:.82rem;color:var(--text-dim);margin-bottom:24px;font-style:italic;}
   .commit-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -220,6 +222,7 @@
   }
   .commit-card.done{border-color:rgba(61,220,132,0.5);}
   .commit-card.progress{border-color:rgba(127,179,255,0.5);}
+  .commit-card.recurring{border-color:rgba(199,146,234,0.5);}
   .commit-status{
     display:inline-block;
     font-size:.72rem;
@@ -233,6 +236,7 @@
   .commit-card.done .commit-status{background:rgba(61,220,132,0.15);color:var(--green);border:1px solid rgba(61,220,132,0.4);}
   .commit-card.pending .commit-status{background:rgba(242,185,12,0.12);color:var(--gold-soft);border:1px solid var(--border);}
   .commit-card.progress .commit-status{background:rgba(127,179,255,0.15);color:var(--blue);border:1px solid rgba(127,179,255,0.4);}
+  .commit-card.recurring .commit-status{background:rgba(199,146,234,0.15);color:var(--purple);border:1px solid rgba(199,146,234,0.4);}
   .commit-title{font-size:1.05rem;color:#fff;font-weight:600;margin-bottom:6px;}
   .commit-desc{font-size:.85rem;color:var(--text-dim);}
 </style>
@@ -262,12 +266,13 @@
     <p class="section-note">The original scope agreed with Deakin, tracked against what's been delivered so far.</p>
     <div class="progress-banner">
       <div>
-        <div class="pb-label">Commitments delivered</div>
+        <div class="pb-label">One-time deliverables complete</div>
         <div class="pb-frac">2 of 5</div>
       </div>
       <div class="progress-track"><div class="progress-fill" style="width:40%;"></div></div>
       <div class="pb-label">40% complete</div>
     </div>
+    <p class="progress-footnote">Plus 1 standing commitment (scholarship promotion) delivered continuously throughout the partnership — not counted in the fraction above, since it isn't a one-time deliverable.</p>
     <div class="commit-grid">
       <div class="commit-card done">
         <div class="commit-status">✅ Complete</div>
@@ -293,6 +298,11 @@
         <div class="commit-status">⏳ Remaining</div>
         <div class="commit-title">Counselor Connect PD Session</div>
         <div class="commit-desc">1 professional development session for the IHST counselor community (largely Hyderabad).</div>
+      </div>
+      <div class="commit-card recurring">
+        <div class="commit-status">🔁 Ongoing</div>
+        <div class="commit-title">Promotion of 2 Academic Scholarships</div>
+        <div class="commit-desc">2 Cialfo-exclusive 100% Academic Scholarships, listed and promoted continuously through Cialfo's UEAs and CPs — a standing complimentary benefit under the agreement.</div>
       </div>
     </div>
   </section>
